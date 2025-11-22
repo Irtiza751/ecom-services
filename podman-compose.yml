@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  # ---------- ORDER DATABASE ----------
+  order-db:
+    image: docker.io/library/postgres:16
+    container_name: order-db
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: order_user
+      POSTGRES_PASSWORD: order_pass
+    volumes:
+      - order_db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  # ---------- PRODUCT DATABASE ----------
+  product-db:
+    image: docker.io/library/postgres:16
+    container_name: product-db
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: product_user
+      POSTGRES_PASSWORD: product_pass
+    volumes:
+      - product_db_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  # ---------- USER DATABASE ----------
+  user-db:
+    image: docker.io/library/postgres:16
+    container_name: user-db
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: user_user
+      POSTGRES_PASSWORD: user_pass
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+
+volumes:
+  order_db_data:
+  product_db_data:
+  user_db_data:
