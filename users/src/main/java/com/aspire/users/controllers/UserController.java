@@ -6,6 +6,7 @@ import com.aspire.users.response.UserResponse;
 import com.aspire.users.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class UserController {
 
     @NullMarked
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getUserList() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<Page<UserResponse>> getUserList(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(userService.getAllUsers(page, size));
     }
 
     @NullMarked
