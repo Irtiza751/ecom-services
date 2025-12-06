@@ -1,6 +1,7 @@
 package com.aspire.users.services;
 
 import com.aspire.users.dtos.CreateUserRequest;
+import com.aspire.users.dtos.PaginatedResult;
 import com.aspire.users.models.Role;
 import com.aspire.users.models.User;
 import com.aspire.users.repositories.UserRepository;
@@ -39,10 +40,19 @@ public class UserService {
     }
 
     @NullMarked
-    public Page<UserResponse> getAllUsers(int page, int size) {
+    public PaginatedResult<UserResponse> getAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepository.findAll(pageable)
-                .map(UserResponse::from);
+        var result = userRepository.findAll(pageable).map(UserResponse::from);
+
+        return new PaginatedResult<>(
+                result.getContent(),
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages(),
+                result.isFirst(),
+                result.isLast()
+        );
     }
 
     public UserResponse getUserById(Long userId) {

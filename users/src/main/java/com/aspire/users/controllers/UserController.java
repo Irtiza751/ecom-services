@@ -1,6 +1,7 @@
 package com.aspire.users.controllers;
 
 import com.aspire.users.dtos.CreateUserRequest;
+import com.aspire.users.dtos.PaginatedResult;
 import com.aspire.users.response.CreateUserResponse;
 import com.aspire.users.response.UserResponse;
 import com.aspire.users.services.UserService;
@@ -28,7 +29,7 @@ public class UserController {
 
     @NullMarked
     @GetMapping
-    public ResponseEntity<Page<UserResponse>> getUserList(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PaginatedResult<UserResponse>> getUserList(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(userService.getAllUsers(page, size));
     }
 
