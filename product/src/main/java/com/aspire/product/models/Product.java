@@ -25,7 +25,7 @@ public class Product {
     @Column(unique = true)
     private String slug;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long userId;
 
     private String description;

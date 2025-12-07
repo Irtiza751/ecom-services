@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @NullMarked
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    boolean existsBySlug(String slug);
 }
