@@ -5,6 +5,7 @@ import com.aspire.users.dtos.PaginatedResult;
 import com.aspire.users.response.CreateUserResponse;
 import com.aspire.users.response.UserResponse;
 import com.aspire.users.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class UserController {
 
     @NullMarked
     @PostMapping
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
         return new ResponseEntity<>(userService.create(createUserRequest), HttpStatus.CREATED);
     }
 
@@ -41,7 +42,7 @@ public class UserController {
 
     @NullMarked
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody @Valid CreateUserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(userId, userRequest));
     }
 
