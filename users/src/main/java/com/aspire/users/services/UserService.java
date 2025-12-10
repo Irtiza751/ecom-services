@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,9 @@ public class UserService {
 
     @Transactional
     public CreateUserResponse create(CreateUserRequest createUserRequest) {
+        if(userRepository.existsByUsername(createUserRequest.getUsername())) {
+            throw new DuplicateKeyException("Username already exist");
+        }
         User newUser = User.builder()
                 .username(createUserRequest.getUsername())
                 .displayName(createUserRequest.getDisplayName())
@@ -61,7 +65,11 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
+    @Transactional
     public UserResponse updateUser(Long userId, CreateUserRequest userRequest) {
+        if(userRepository.existsByUsername(userRequest.getUsername())) {
+            throw new DuplicateKeyException("Username already exist");
+        }
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setUsername(userRequest.getUsername());
@@ -78,6 +86,7 @@ public class UserService {
         );
     }
 
+    @Transactional
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
